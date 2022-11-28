@@ -5,13 +5,14 @@ from flask_mqtt import Mqtt
 
 from os.path import join, dirname, realpath
 
-import subscribe 
+import subscribe  #References the subscribe script. 
 
 app = Flask(__name__)
 
 @app.route('/')
 def index():
-	content = "Temperature right now is: " + subscribe.main()
+	content = "Temperature right now is: " + subscribe.main() 
+	# this function calls the subscibe script. 
 	return content
 
 if __name__ == '__main__':

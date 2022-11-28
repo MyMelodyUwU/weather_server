@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# This is used to publish information on the thread 
+
 import paho.mqtt.client as mqtt 
 from random import randrange, uniform
 import time
@@ -7,11 +9,8 @@ import random
 
 mqttBroker ="mqtt.eclipseprojects.io" 
 
-client = mqtt.Client("JT/Temperature")
+client = mqtt.Client("JT/Temperature") # the Topic that It is subscribed to
 client.connect(mqttBroker) 
-
-#start_time = time.time()
-#finish_time = time.time() + 
 
 def publish_temperatures(): 
     while True:

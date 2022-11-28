@@ -1,6 +1,6 @@
 #!usr/bin/env python3
 
-print("Subscribe is up ")
+# This is used to obtain the infomration published on the MQTT servers 
 import paho.mqtt.client as mqtt
 import time
 import sys
@@ -26,9 +26,7 @@ def main():
 
 	client.subscribe("JT/Temperature")
 	# Initally the code was like this before change
-	# 
 	# client.on_message= on_message	
-
 
 	# Here it is after change:
 	print("Test")
