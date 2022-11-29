@@ -3,5 +3,8 @@
 import sys
 import random
 
+temp_list = []
 def operation_average(values):
-	return 0
+	for i in values:
+		temp_list.append(int(i))
+	return sum(temp_list) / len(temp_list)
