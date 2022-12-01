@@ -3,10 +3,9 @@
 import paho.mqtt.client as mqtt
 import time
 import operations
+import sql_functions
 
 # These variables are global!
-
-input_file = "z_in"
 
 list_of_temps = []
 average_temperature = 0
@@ -17,22 +16,20 @@ def do_operations(list_of_temps):
 	output = operations.operation_average(list_of_temps)	
 	return output
 
-def main():
-	thread = read()
-	make_connection(thread)
+def main(location):
+	config = operations.read()
+	client = operations.make_connection()
+	client.connect(config["broker"]) 
+	recieve_msg(client, config["topic"], location)
 	content = serve_content()
+	#sql_functions.save_content(list_of_temps)
 	return content
 
-def make_connection(thread):
-
-	mqttBroker ="mqtt.eclipseprojects.io"
-
-	client = mqtt.Client("Smartphone")
-	client.connect(mqttBroker) 
+def recieve_msg(client, topic, location):
 
 	client.loop_start()
 
-	client.subscribe(thread)
+	client.subscribe(topic + "/" + location)
 	client.on_message=on_message 
 
 	time.sleep(30)
@@ -40,16 +37,8 @@ def make_connection(thread):
 
 def on_message(client, userdata, message):
 	decoded_message = str(message.payload.decode("utf-8"))
-	print("received message: " ,decoded_message)
+	#print("received message: " ,decoded_message)
 	list_of_temps.append(decoded_message)
-
-def print_temps():
-	print(list_of_temps)
-
-def read():
-    file = open(input_file, "r")
-    record = file.read()[:-1]
-    return record
 
 def serve_content():
 	content = "The current collected temperatures are:" + str(list_of_temps) + ", the average is" + str(do_operations(list_of_temps))

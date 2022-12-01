@@ -1,47 +1,32 @@
 #!/usr/bin/env python3
 
-# This is used to publish information on the thread 
+# This is used to publish information on the topic 
 
 import paho.mqtt.client as mqtt 
-from random import randrange, uniform
-import time
 import random
-import sys
+import time
+import operations
 
 # These are the global variables ->
 
-#input_file = "/dev/stdin" #Console read
-input_file = "z_in" #Input file
-
-output_file = "/dev/stdout" #Console output
-#output_file = "z_out" #output file
-
-mqttBroker ="mqtt.eclipseprojects.io" 
-
-thread = ""
-
-# ----------------------------------
-
-client = mqtt.Client(thread) # the Topic that It is subscribed to
-client.connect(mqttBroker) 
+client = mqtt.Client() 
 
 # These functions are in alphabetical order! It shows the order the computer
 
 def main():
     print("Waking up")
-    thread = read()
-    publish_temperatures(thread)
+    config = operations.read()
+    topic = config["topic"]
+    location = config["location"]
+    client.connect(config["broker"]) 
+    publish_temperatures(topic, location)
 
-def publish_temperatures(thread): 
+def publish_temperatures(topic, location): 
     while True:
-        client.publish(thread,random.randint(0,30))
-        print("Published")
+        temperature = random.randint(0, 30)
+        client.publish(topic + "/" + location, temperature)
+        print(f"Published: {temperature} C")
         time.sleep(1)
 
-def read():
-    file = open(input_file, "r")
-    record = file.read()[:-1]
-    return record
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
