@@ -31,7 +31,7 @@ def save_content(list_of_temps):
 #sql_connection()
     print("Save content running")
     conn = sql_connection()
-    make_sql_table(conn)
+    #make_sql_table(conn)
     insert_temperatures(conn, list_of_temps)
 
     return 0

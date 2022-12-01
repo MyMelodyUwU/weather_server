@@ -22,7 +22,7 @@ def main(location):
 	client.connect(config["broker"]) 
 	recieve_msg(client, config["topic"], location)
 	content = serve_content()
-	#sql_functions.save_content(list_of_temps)
+	sql_functions.save_content(list_of_temps)
 	return content
 
 def recieve_msg(client, topic, location):
@@ -32,7 +32,7 @@ def recieve_msg(client, topic, location):
 	client.subscribe(topic + "/" + location)
 	client.on_message=on_message 
 
-	time.sleep(30)
+	time.sleep(60)
 	client.loop_stop()
 
 def on_message(client, userdata, message):

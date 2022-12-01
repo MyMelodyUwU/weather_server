@@ -17,16 +17,23 @@ def main():
     print("Waking up")
     config = operations.read()
     topic = config["topic"]
-    location = config["location"]
+    #location = config["location"]
     client.connect(config["broker"]) 
-    publish_temperatures(topic, location)
+    publish_temperatures(topic, config)
 
-def publish_temperatures(topic, location): 
+def publish_temperatures(topic, config): 
     while True:
-        temperature = random.randint(0, 30)
-        client.publish(topic + "/" + location, temperature)
-        print(f"Published: {temperature} C")
-        time.sleep(1)
+        count = -1
+        max_count = 4
+        for i in config["location"]:
+            count += 1
+            set_location = config["location"][count]
+            if(count == max_count) :
+                count = 0
+            temperature = random.randint(0, 30)
+            client.publish(topic + "/" + set_location, temperature)
+            print(f"Published: {temperature} C in {set_location}")
+            time.sleep(1)
 
 if __name__ == "__main__":
     main()
