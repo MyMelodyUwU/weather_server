@@ -6,6 +6,7 @@ import paho.mqtt.client as mqtt
 import random
 import time
 import operations
+import numpy as np
 
 # These are the global variables ->
 
@@ -30,7 +31,9 @@ def publish_temperatures(topic, config):
             set_location = config["location"][count]
             if(count == max_count) :
                 count = 0
-            temperature = random.randint(0, 30)
+            #seed_no = random.randint(0, 30) 
+            #temperature = operations.create_smooth_RNG(seed_no)
+            temperature = random.randint(0, 30) 
             client.publish(topic + "/" + set_location, temperature)
             print(f"Published: {temperature} C in {set_location}")
             time.sleep(1)

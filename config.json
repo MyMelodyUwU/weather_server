@@ -2,10 +2,10 @@
     "topic": "JT",
     "broker": "mqtt.eclipseprojects.io",
     "location": [
-        "Sydney",
-        "Melbourne",
-        "Perth",
-        "Brisbane",
-        "Canberra"
+        "CPU",
+        "GPU",
+        "Memory",
+        "PSU",
+        "Disk"
     ]
 }
